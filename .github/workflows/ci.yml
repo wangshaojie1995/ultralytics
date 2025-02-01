@@ -134,9 +134,6 @@ jobs:
       - name: Benchmark OBBModel
         shell: bash
         run: coverage run -a --source=ultralytics -m ultralytics.cfg.__init__ benchmark model='path with spaces/${{ matrix.model }}-obb.pt' imgsz=160 verbose=0.597
-      - name: Benchmark YOLOv10Model
-        shell: bash
-        run: coverage run -a --source=ultralytics -m ultralytics.cfg.__init__ benchmark model='path with spaces/yolov10n.pt' imgsz=160 verbose=0.205
       - name: Merge Coverage Reports
         run: |
           coverage xml -o coverage-benchmarks.xml
@@ -327,6 +324,7 @@ jobs:
           yolo train model=yolo11n.pt data=coco8.yaml epochs=1 imgsz=32
           yolo val model=yolo11n.pt data=coco8.yaml imgsz=32
           yolo export model=yolo11n.pt format=torchscript imgsz=160
+          yolo benchmark model=yolo11n.pt data='coco8.yaml' imgsz=640 format=onnx
           yolo solutions
       - name: Test Python
         # Note this step must use the updated default bash environment, not a python environment
